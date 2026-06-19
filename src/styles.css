@@ -239,7 +239,77 @@ h2 {
 }
 
 .log-panel {
+  background:
+    linear-gradient(90deg, rgba(141, 255, 159, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(141, 255, 159, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 50% 0, rgba(141, 255, 159, 0.13), transparent 18rem),
+    rgba(0, 0, 0, 0.38);
+  background-size:
+    18px 18px,
+    18px 18px,
+    auto,
+    auto;
+  box-shadow:
+    inset 0 0 40px rgba(141, 255, 159, 0.08),
+    inset 0 0 3px rgba(247, 255, 122, 0.2);
   min-height: 24rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.log-panel::before {
+  animation: terminalSweep 4.8s linear infinite;
+  background: linear-gradient(180deg, transparent, rgba(247, 255, 122, 0.08), transparent);
+  content: "";
+  height: 8rem;
+  inset: -8rem 0 auto;
+  pointer-events: none;
+  position: absolute;
+}
+
+.log-panel::after {
+  border: 1px solid rgba(247, 255, 122, 0.18);
+  content: "";
+  inset: 0.45rem;
+  pointer-events: none;
+  position: absolute;
+}
+
+.log-panel__header {
+  align-items: start;
+  border-bottom: 1px solid rgba(141, 255, 159, 0.28);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: -0.1rem -0.1rem 1rem;
+  padding-bottom: 0.85rem;
+  position: relative;
+  z-index: 1;
+}
+
+.log-panel__eyebrow {
+  color: rgba(247, 255, 122, 0.78);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+}
+
+.log-panel__status {
+  animation: terminalPulse 1.6s steps(2, end) infinite;
+  color: #8dff9f;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.log-panel__status::before {
+  content: "[ ";
+}
+
+.log-panel__status::after {
+  content: " ]";
 }
 
 .log {
@@ -248,17 +318,81 @@ h2 {
   list-style: none;
   margin: 0;
   padding: 0;
+  position: relative;
+  z-index: 1;
 }
 
-.log li {
-  border-left: 2px solid rgba(141, 255, 159, 0.45);
+.log-entry {
+  animation:
+    terminalEntry 360ms steps(5, end) both,
+    terminalGlow 2.8s ease-in-out infinite;
+  animation-delay: var(--line-delay), calc(var(--line-delay) + 360ms);
+  border-left: 2px solid rgba(141, 255, 159, 0.62);
   display: grid;
   gap: 0.35rem;
+  opacity: 0;
   padding-left: 0.75rem;
+  position: relative;
 }
 
-.log__command {
+.log-entry::before {
+  color: rgba(247, 255, 122, 0.58);
+  content: ">";
+  left: -0.9rem;
+  position: absolute;
+  text-shadow: 0 0 10px rgba(247, 255, 122, 0.7);
+  top: 1.25rem;
+}
+
+.log-entry__meta {
+  color: rgba(217, 255, 224, 0.54);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.terminal-line {
+  animation: terminalReveal 760ms steps(20, end) both;
+  animation-delay: calc(var(--line-delay) + 160ms);
+  clip-path: inset(0 100% 0 0);
+  display: block;
+  text-shadow: 0 0 12px rgba(141, 255, 159, 0.58);
+}
+
+.terminal-line--command {
   color: #f7ff7a;
+}
+
+.terminal-line--response {
+  color: #d9ffe0;
+  text-transform: uppercase;
+}
+
+.terminal-line--response::after {
+  animation: cursorBlink 0.9s steps(2, end) infinite;
+  color: #f7ff7a;
+  content: "_";
+  margin-left: 0.15rem;
+}
+
+.log__empty {
+  align-items: center;
+  color: rgba(217, 255, 224, 0.72);
+  display: inline-flex;
+  gap: 0.35rem;
+  letter-spacing: 0.08em;
+  position: relative;
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+.terminal-cursor {
+  animation: cursorBlink 0.9s steps(2, end) infinite;
+  background: #f7ff7a;
+  box-shadow: 0 0 10px rgba(247, 255, 122, 0.9);
+  display: inline-block;
+  height: 1em;
+  width: 0.65em;
 }
 
 .badge {
@@ -325,5 +459,77 @@ h2 {
 
   .input-row > span {
     display: none;
+  }
+}
+
+@keyframes terminalEntry {
+  0% {
+    filter: blur(2px);
+    opacity: 0;
+    transform: translateX(-0.45rem);
+  }
+
+  38% {
+    opacity: 1;
+  }
+
+  54% {
+    transform: translateX(0.25rem);
+  }
+
+  100% {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes terminalReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes terminalGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 8px rgba(141, 255, 159, 0.35);
+  }
+
+  50% {
+    text-shadow: 0 0 16px rgba(141, 255, 159, 0.65);
+  }
+}
+
+@keyframes terminalPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes terminalSweep {
+  to {
+    transform: translateY(42rem);
+  }
+}
+
+@keyframes cursorBlink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+
+  46%,
+  100% {
+    opacity: 0;
   }
 }

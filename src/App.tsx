@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { type CSSProperties, type FormEvent, useEffect, useMemo, useState } from "react";
 import { getDailyPassword } from "./game/dailyPassword";
 import { answerQuestion, evaluateGuess } from "./game/gameLogic";
 
@@ -18,6 +18,10 @@ type LeaderboardEntry = {
   name: string;
   completedAt: string;
   solveTimeMs: number;
+};
+
+type TerminalLineStyle = CSSProperties & {
+  "--line-delay": string;
 };
 
 const MAX_QUESTIONS = 5;
@@ -221,23 +225,42 @@ function App() {
               )}
             </div>
 
-            <div className="panel log-panel">
-              <h2>Session Log</h2>
+            <div className="panel log-panel" aria-live="polite">
+              <div className="log-panel__header">
+                <div>
+                  <p className="log-panel__eyebrow">MOTHER TERMINAL // 2122-A</p>
+                  <h2>Session Log</h2>
+                </div>
+                <span className="log-panel__status">Signal open</span>
+              </div>
               {questions.length === 0 && guesses.length === 0 ? (
-                <p className="muted">No commands entered. The cursor blinks impatiently.</p>
+                <div className="log__empty">
+                  <span>Awaiting operator command</span>
+                  <span className="terminal-cursor" aria-hidden="true" />
+                </div>
               ) : (
                 <ol className="log">
                   {questions.map((entry, index) => (
-                    <li key={`question-${index}`}>
-                      <span className="log__command">? {entry.question}</span>
-                      <span>{entry.response}</span>
+                    <li
+                      className="log-entry log-entry--question"
+                      key={`question-${index}`}
+                      style={lineDelay(index)}
+                    >
+                      <span className="log-entry__meta">QUERY {String(index + 1).padStart(2, "0")}</span>
+                      <span className="terminal-line terminal-line--command">? {entry.question}</span>
+                      <span className="terminal-line terminal-line--response">{entry.response}</span>
                     </li>
                   ))}
                   {guesses.map((entry, index) => (
-                    <li key={`guess-${index}`}>
-                      <span className="log__command">&gt; {entry.guess}</span>
+                    <li
+                      className="log-entry log-entry--guess"
+                      key={`guess-${index}`}
+                      style={lineDelay(questions.length + index)}
+                    >
+                      <span className="log-entry__meta">PASSWORD ATTEMPT {String(index + 1).padStart(2, "0")}</span>
+                      <span className="terminal-line terminal-line--command">&gt; {entry.guess}</span>
                       <span className={`badge badge--${entry.closeness}`}>{entry.closeness}</span>
-                      <span>{entry.response}</span>
+                      <span className="terminal-line terminal-line--response">{entry.response}</span>
                     </li>
                   ))}
                 </ol>
@@ -279,6 +302,12 @@ function Status({ label, value }: { label: string; value: string }) {
       <strong>{value}</strong>
     </div>
   );
+}
+
+function lineDelay(index: number): TerminalLineStyle {
+  return {
+    "--line-delay": `${Math.min(index * 90, 720)}ms`,
+  };
 }
 
 function leaderboardKey(dayKey: string) {
