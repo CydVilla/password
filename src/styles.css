@@ -1,0 +1,329 @@
+:root {
+  color: #d9ffe0;
+  background: #020403;
+  font-family:
+    "Courier New",
+    "Lucida Console",
+    monospace;
+  font-synthesis: none;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at center, rgba(42, 255, 111, 0.13), transparent 36rem),
+    linear-gradient(180deg, rgba(10, 24, 12, 0.95), #020403 50%);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 1px solid #8dff9f;
+  border-radius: 0;
+  color: #061208;
+  background: #8dff9f;
+  box-shadow: 0 0 18px rgba(141, 255, 159, 0.28);
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1rem;
+  text-transform: uppercase;
+}
+
+button:disabled {
+  background: transparent;
+  color: rgba(217, 255, 224, 0.38);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+input {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(141, 255, 159, 0.65);
+  outline: 0;
+  color: #d9ffe0;
+  background: transparent;
+  padding: 0.75rem 0.5rem;
+}
+
+input::placeholder {
+  color: rgba(217, 255, 224, 0.4);
+}
+
+input:focus {
+  border-color: #f7ff7a;
+  box-shadow: 0 0.35rem 1rem -0.75rem #f7ff7a;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+.screen {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.screen::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.025),
+    rgba(255, 255, 255, 0.025) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  mix-blend-mode: screen;
+}
+
+.terminal {
+  width: min(1120px, 100%);
+  border: 1px solid rgba(141, 255, 159, 0.7);
+  background:
+    linear-gradient(180deg, rgba(6, 18, 8, 0.94), rgba(1, 5, 2, 0.97)),
+    #061208;
+  box-shadow:
+    0 0 60px rgba(30, 255, 92, 0.18),
+    inset 0 0 42px rgba(141, 255, 159, 0.08);
+  padding: 1rem;
+}
+
+.terminal__chrome {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.terminal__chrome span {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid #8dff9f;
+  box-shadow: 0 0 12px rgba(141, 255, 159, 0.4);
+}
+
+.hero {
+  border-bottom: 1px dashed rgba(141, 255, 159, 0.5);
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+.kicker {
+  color: #f7ff7a;
+  letter-spacing: 0.24em;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+h1 {
+  color: #8dff9f;
+  font-size: clamp(3rem, 12vw, 8rem);
+  line-height: 0.9;
+  margin-bottom: 0.5rem;
+  text-shadow:
+    0 0 12px rgba(141, 255, 159, 0.9),
+    0 0 44px rgba(141, 255, 159, 0.35);
+}
+
+h2 {
+  color: #f7ff7a;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.subtitle,
+.muted,
+.empty-state {
+  color: rgba(217, 255, 224, 0.72);
+}
+
+.status-grid,
+.game-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.status-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.status,
+.panel {
+  border: 1px solid rgba(141, 255, 159, 0.38);
+  background: rgba(0, 0, 0, 0.24);
+  padding: 1rem;
+}
+
+.status span {
+  display: block;
+  color: rgba(217, 255, 224, 0.56);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.status strong {
+  color: #f7ff7a;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.game-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+  margin-bottom: 1rem;
+}
+
+.prompt-line::before {
+  content: "> ";
+  color: #f7ff7a;
+}
+
+.command-form {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.command-form label {
+  color: rgba(217, 255, 224, 0.72);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.input-row {
+  align-items: center;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.input-row > span {
+  color: #f7ff7a;
+  font-weight: 700;
+}
+
+.win-card {
+  border: 1px solid #f7ff7a;
+  box-shadow: inset 0 0 24px rgba(247, 255, 122, 0.08);
+  color: #f7ff7a;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.win-card p:last-child {
+  margin-bottom: 0;
+}
+
+.log-panel {
+  min-height: 24rem;
+}
+
+.log {
+  display: grid;
+  gap: 0.9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.log li {
+  border-left: 2px solid rgba(141, 255, 159, 0.45);
+  display: grid;
+  gap: 0.35rem;
+  padding-left: 0.75rem;
+}
+
+.log__command {
+  color: #f7ff7a;
+}
+
+.badge {
+  display: inline-flex;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.badge--cold {
+  color: #ff8d8d;
+}
+
+.badge--warm {
+  color: #ffd98d;
+}
+
+.badge--hot {
+  color: #8dff9f;
+}
+
+.leaderboard {
+  display: grid;
+  gap: 1rem;
+}
+
+.leaderboard ol {
+  display: grid;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.leaderboard li {
+  align-items: baseline;
+  border-bottom: 1px dashed rgba(141, 255, 159, 0.25);
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: auto 1fr auto auto;
+  padding-bottom: 0.6rem;
+}
+
+.leaderboard li span,
+.leaderboard time,
+.leaderboard small {
+  color: rgba(217, 255, 224, 0.7);
+}
+
+@media (max-width: 780px) {
+  .screen {
+    padding: 1rem;
+  }
+
+  .status-grid,
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .input-row,
+  .leaderboard li {
+    grid-template-columns: 1fr;
+  }
+
+  .input-row > span {
+    display: none;
+  }
+}
