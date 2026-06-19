@@ -35,9 +35,9 @@ const QUESTION_RESPONSES = {
     "The modem chatter points to {trendSignal}.",
   ],
   vague: [
-    "{eraHint} Your question had all the precision of a wet floppy disk.",
-    "{eraHint} The cursor blinks. It is judging you.",
-    "{eraHint} Consider what people cannot stop arguing about.",
+    "CLUE BUFFER: {eraHint}",
+    "SIGNAL READ: {eraHint} Stay near the headlines people keep repeating.",
+    "TERMINAL HINT: {eraHint}",
   ],
 };
 
