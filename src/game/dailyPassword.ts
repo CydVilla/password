@@ -41,7 +41,7 @@ const OFFLINE_TREND_PASSWORDS: DailyPassword[] = [
     answer: "Taylor Swift",
     category: "entertainment",
     trendSignal: "a pop-culture machine powerful enough to bend headlines around it",
-    eraHint: "The jukebox has swallowed the newswire.",
+    eraHint: "Music and pop-culture headlines are crowding the feed.",
     proximityTerms: ["concert", "eras", "music", "pop star", "tour"],
   },
   {
